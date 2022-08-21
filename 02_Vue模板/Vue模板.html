@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue模板</title>
+    <script src="../vue_js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h1>插值语法</h1>
+        <p>你好{{name}},我改变主意了。</p>
+        <hr>
+        <h1>指令语法</h1>
+        <p>
+            <a v-bind:href="url">点我去学Vue{{vue[0]}}</a>
+        </p>
+        <p>
+            <a :href="url">点我去学Vue{{vue[1]}}</a>
+        </p>
+    </div>
+</body>
+<script>
+     Vue.config.productionTip = false;
+     new Vue({
+        el:"#root",
+        data:{
+            name:"Jack",
+            url:"https://cn.vuejs.org/",
+            vue:[2,3]
+        }
+     });
+</script>
+</html>

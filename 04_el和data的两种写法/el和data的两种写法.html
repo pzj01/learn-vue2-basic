@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>el和data的两种写法</title>
+    <script src="../vue_js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h1>绑定容器的两种写法</h1>
+        <h2>el:"{{selector}}"</h2>
+        <h2>实例对象.$mount({{selector}})</h2>
+        <hr>
+        <h1>data的两种写法</h1>
+        <h2>data:{{data1}}</h2>
+        <h2>{{data2}}</h2>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    const v = new Vue({
+        // el:'#root',//第一种写法
+    //     data:{//第一种写法:对象式
+    //         selector:"#root",
+    //         data:`{
+    //             selector:"#root"
+    //         }`
+    //    }
+        data() {//第二种写法:函数式,返回值必须是对象,不能写成箭头函数,写成箭头函数this就变成window了
+            return {
+                selector:"#root",
+                data1:`{
+                    selector:"#root"
+                }`,
+                data2:`data() {
+                    return {
+                        selector:"#root",
+                    }
+                }` 
+            };
+        },
+    });
+    v.$mount("#root");//第二种写法
+    console.log(v);
+</script>
+</html>

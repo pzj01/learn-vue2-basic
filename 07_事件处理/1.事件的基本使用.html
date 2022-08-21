@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件的基本使用</title>
+    <script src="../vue_js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h1>欢迎学习{{lesson}}</h1>
+        <!-- 如果不传入参数可以直接使用event,这个是默认传入 -->
+        <button v-on:click="show">点我提示信息(不传参数)</button>
+        <!-- 简写 -->
+        <!-- 可以传入数据类型和data中的数据,为了防止event丢失可以使用$event占位 -->
+        <button @click="show(tips,$event)">点我提示信息(传入参数)</button>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    const vm = new Vue({
+        el:'#root',
+        data:{
+            lesson:"Vue",
+            message:"同学你好！",
+            tips:"我是传入的参数"
+       },
+       methods:{
+        show(value,event) {
+            console.log(value,event);
+            alert(this.message);
+        } 
+       }
+    });
+    console.log(vm);
+</script>
+</html>

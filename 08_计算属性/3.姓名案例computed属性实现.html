@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姓名案例computed语法实现</title>
+    <script src="../vue_js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h2>computed实现</h2>
+        <p>
+            姓: <input type="text" v-model="firstName" placeholder="张">
+        </p>
+        <p>
+            名: <input type="text" v-model="lastName" placeholder="三">
+        </p>
+        <p>
+            全名: <span>{{fullName}}</span><br>
+            全名: <span>{{fullName}}</span><br>
+            全名: <span>{{fullName}}</span><br>
+            全名: <span>{{fullName}}</span><br>
+            全名: <span>{{fullName}}</span>
+        </p>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    const vm = new Vue({
+        el:'#root',
+        data () {
+            return {
+                firstName:'',
+                lastName:'',
+            }
+       },
+       computed: {
+            //写成函数就直接当做get调用
+            // fullName() {
+            //     let fullName = `${this.firstName}-${this.lastName}`;
+            //     console.log(fullName);
+            //     return fullName;
+            // },
+            //一般都写对象形式,需要声明get或set
+            fullName:{
+                get() {//get什么时候调用? 1.初次读取调用 2.所依赖的数据数据发送变化是调用
+                    let fullName = `${this.firstName}-${this.lastName}`;
+                    console.log(fullName);
+                    return fullName;
+                },
+                set(value) {//set什么时候调用? 1.该属性被修改时调用
+                    let arr = value.split("-");
+                    console.log(arr);
+                    this.firstName = arr[0];
+                    this.lastName = arr[1]
+                }
+            }
+       }
+    });
+    console.log(vm);
+</script>
+</html>

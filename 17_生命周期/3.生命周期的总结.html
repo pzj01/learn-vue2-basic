@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生命周期的总结</title>
+    <script src="../vue_js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h1 :style="{opacity}">欢迎学习{{name}}</h1>
+        <button @click="stop">点我停止变幻</button>
+        <button @click="opacity = 1">点我透明度归位</button>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    const vm = new Vue({
+        el:'#root',
+        data:{
+            name:"Vue",
+            opacity:1,
+       },
+       methods: {
+            stop() {
+                //销毁vm
+                this.$destroy();
+            }
+       },
+       //创建生命周期钩子
+       //实例被挂载后调用(Vue第一次完成模板的解析并把真实DOM放入页面后调用mounted[挂载完毕])
+       mounted () {
+            console.log("mounted调用,挂载完毕");
+            this.timer = setInterval(() => {
+                this.opacity -= 0.01;
+                console.log("定时器调用");
+                if(this.opacity <= 0) this.opacity = 1;
+            }, 16);
+       },
+       beforeDestroy () {
+            //vm销毁之前把定时器取消
+            clearInterval(this.timer);
+       }
+    });
+</script>
+</html>

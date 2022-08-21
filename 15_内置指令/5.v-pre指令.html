@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-pre</title>
+    <script src="../vue_js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+        v-pre指令：
+            1.跳过这个元素和它的子元素的编译过程
+            2.跳过大量没有指令和插值语法的节点会加快编译。
+     -->
+    <div id="root">
+        <h1 v-pre>Vue其实很简单</h1>
+        <h2 v-pre>n当前的值: {{num}} </h2>
+        <button @click="num++">count</button>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    new Vue({
+        el:'#root',
+        data:{
+            num:0,
+       },
+    });
+</script>
+</html>

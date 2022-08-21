@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义指令</title>
+    <script src="../vue_js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h2>
+            当前的n值是: <span v-text="n"></span>
+        </h2>
+        <h2>
+            放大10倍后的n值是: <span v-mul-10="n"></span>
+        </h2>
+        <button @click="n++">count</button>
+        <!-- 在HTML5中规定属性名不能使用大写,所以自定义fBind会报错,HTML属性在js中只能小驼峰命名法 -->
+        <input type="text" v-focus-bind:value="n">
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    //定义全局指令 
+    Vue.directive("focus-bind",{
+        //当指令和元素成功绑定时调用
+        bind(el,bind) {
+            el.value = bind.value;
+            console.log("bind调用");
+        },
+        //指令所在元素被插入页面时调用
+        inserted(el,bind) {
+            el.focus();
+            console.log("inserted调用");
+        },
+        //指令所在模板被重新解析时调用
+        update(el,bind) {
+            el.value = bind.value;
+            console.log("update调用");
+        }
+    });
+    new Vue({
+        el:'#root',
+        data:{
+            n:1,
+       },
+       //局部自定义指令
+       directives: {
+            //函数式自定义指令在什么调用? 
+            //1.在指令和元素成功绑定初始化时调用 2.指令所在模板重新解析时调用
+            //element代表当前使用指令的DOM元素
+            //binding表示与DOM元素的绑定对象
+            "mul-10"(element,binding) {//自定义指令 函数式
+                element.innerText = binding.value * 10;
+            },
+            //使用小驼峰命名法也行(不推荐使用),不过模板上要在大写字母前加-
+            // "focusBind":{//自定义指令 对象式
+            //     //当指令和元素成功绑定时调用
+            //     bind(el,bind) {
+            //         el.value = bind.value;
+            //         console.log("bind调用");
+            //     },
+            //     //指令所在元素被插入页面时调用
+            //     inserted(el,bind) {
+            //         el.focus();
+            //         console.log("inserted调用");
+            //     },
+            //     //指令所在模板被重新解析时调用
+            //     update(el,bind) {
+            //         el.value = bind.value;
+            //         console.log("update调用");
+            //     }
+            // }
+       }
+    });
+</script>
+</html>

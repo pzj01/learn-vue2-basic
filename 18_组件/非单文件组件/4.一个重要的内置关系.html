@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一个重要的内置关系</title>
+    <script src="../../vue_js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    const fgoComponent = Vue.extend({
+        name:"fgoComponent",
+        template:`
+        <div>
+            <h2>游戏名: {{name}} </h2>
+            <h2>最喜欢的从者:
+                 {{slave}}<span v-if="show">({{job}})</span>
+            </h2>
+            <button @click="showJob">点我解放职介</button>
+        </div>
+        `,
+        methods: {
+            showJob() {
+                this.show = true;
+            }
+        },
+        data () {
+            return {
+                name:"Fate/GO",
+                slave:"摩根",
+                job:"Berserker",
+                show:false,
+            }
+        }
+    });
+    const vm = new Vue({
+        el:'#root',
+        data() {
+            return {
+                
+            };
+       },
+    });
+    console.log(fgoComponent.prototype.__proto__ === Vue.prototype);//true
+</script>
+</html>

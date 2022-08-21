@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>模拟一个数据监测</title>
+    <!-- <script src="../vue_js/vue.js"></script> -->
+  </head>
+  <body></body>
+  <script>
+    function Observer(obj) {
+        //汇总对象中所有的属性形成一个数组
+        const arr = Object.keys(obj);
+        //遍历数组,获取键值
+        for(let v of arr) {
+            //判断是否是引用类型数据
+            if(obj[v] instanceof Object) {
+              //判断是否是数组
+              if(obj[v] instanceof Array) {
+                //创建数组
+                this[v] = [];
+                //遍历数组
+                for(let i in obj[v]) {
+                  //递归数组里的元素,直到全部是基本数据类型为止,并且保存到实例中
+                  this[v][i] = new Observer(obj[v][i]);  
+                }
+              }else {
+                //是对象类型,就直接递归到,全部是基本数据类型为止,并且创建实例保存在相应属性中
+                this[v] =  new Observer(obj[v]);
+              }
+            }
+            //为实例添加属性
+            Object.defineProperty(this,v,{
+                get() {
+                    return obj[v];
+                },
+                set(value) {
+                    obj[v] = value;
+                }
+            })
+        }
+    };
+    let data = {
+      name: "阿修罗",
+      age: 20,
+      friends:[
+        1,2,3,"李二"
+      ]
+    };
+    const vm = {};
+    const _ob_ = new Observer(data);
+    vm._data = data = _ob_;
+    //创建一个观察者实例,用来监视data的变化
+    console.log(_ob_);
+    
+  </script>
+</html>

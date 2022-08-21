@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于更新的一个问题</title>
+    <script src="../vue_js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h2>剑来主要人员列表</h2>
+        <ul>
+            <li v-for="(p,index) of people" :key="p.id">{{p.name}}——{{p.age}}岁</li>
+        </ul>
+        <button @click="update">更新陈平安</button>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    const vm = new Vue({
+        el:'#root',
+        data:{
+            people:[
+                {id:"001",name:"陈平安",age:40},
+                {id:"002",name:"宁姚",age:40},
+                {id:"003",name:"齐静春",age:300},
+                {id:"004",name:"崔东山",age:18},
+                {id:"005",name:"持剑者",age:100000}
+            ],
+       },
+       methods:{
+            update() {
+                //奏效
+                // let p = this.people[0];
+                // p.name = "pzj";
+                // p.age = 18;
+                //内存中修改了对象,但是Vue没有检测到修改,所以没有渲染页面
+                //因为Vue不会监听数组内值的变化,所以不会渲染,
+                //要想Vue渲染必须要修改数组,因为Vue监听的是数组本身
+                // this.people[0] = {id:"001",name:"我即是道",age:1000000000};//无效
+                this.people.push({id:"006",name:"左右",age:400});
+            }
+       }
+    });
+    console.log(vm);
+</script>
+</html>

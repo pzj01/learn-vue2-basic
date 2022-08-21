@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>回顾Object.defineProperty方法</title>
+</head>
+<body>
+    
+</body>
+<script>
+    let gender = true;
+    const obj = {
+        name:"阿修罗",
+        age:20,
+    };
+    //可以给对象添加属性,可以配置这个属性的一些特性
+    //参数:object,propName:string,configOptions
+    // Object.defineProperty(obj,"skill",{
+    //     /*基本配置*/
+    //     // value:[{name:"普通攻击"},{name:"被动技能"},{name:"大招"}],
+    //     // enumerable:true,//控制属性是否可以枚举,默认值:false
+    //     // writable:true,//控制属性是否可以被修改,默认值:false
+    //     // configurable:true,//控制属性是否可以被删除,默认值:false
+    // });
+    Object.defineProperty(obj,"gender",{
+         /*高级配置*/
+         //getter(访问器) 当访问该属性时自动调用,并且该属性的值为getter的返回值
+         get() {
+            return gender;
+         },
+         //setter(存储器) 当修改该属性的值时,会调用setter,且会收到具体的值
+         set(value) {
+            gender = value;
+         }
+    });
+    console.log(obj);
+    //不可枚举
+    // console.log(Object.keys(obj));
+    // for(let key in obj) {
+    //     console.log("@",key);
+    // }
+</script>
+</html>

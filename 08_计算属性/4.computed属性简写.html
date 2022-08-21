@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>computed属性简写</title>
+    <script src="../vue_js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h2>computed简写</h2>
+        <p>
+            姓: <input type="text" v-model="firstName" placeholder="张">
+        </p>
+        <p>
+            名: <input type="text" v-model="lastName" placeholder="三">
+        </p>
+        <p>
+            全名: <span>{{fullName}}</span><br>
+        </p>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    new Vue({
+        el:'#root',
+        data() {
+            return {
+                firstName:'',
+                lastName:'',
+            };
+       },
+       computed: {
+        fullName() {
+            let fullName = `${this.firstName}-${this.lastName}`;
+            console.log(fullName);
+            return fullName;
+         }
+       }
+    });
+</script>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>条件渲染</title>
+    <script src="../vue_js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+        条件渲染：
+            1.v-if          
+                写法：
+                    (1).v-if="表达式”
+                    (2).v-else-if="表达式"
+                    (3).v-else="表达式"
+                适用于：切换频率较低的场景。
+                特点：不展示的D0M元素直接被移除。
+                注意：v-if可以和：v-else-if、v-else一起使用，但要求结构不能被“打断”。
+            2.v-show
+                写法：V-show="表达式
+                适用于：切换频率较高的场景。
+                特点：不展示的OM元素未被移除，仅仅是使用样式隐藏掉
+            3.备注：使用v-if的时，元素可能无法获取到，而使用v-show一定可以获取到。
+     -->
+    <div id="root">
+        <!-- v-show条件渲染 操控display属性 使用场景:切换频率较高的情况使用,因为这是修改显示和不显示,所以性能消耗较少 -->
+        <h1 v-show="show">陈平安</h1>
+        <h1 v-show="1 < 0">陈平安</h1>
+        <!-- v-if做条件渲染 操控dom节点 使用场景:切换频率不高的情况使用,因为添加和删除dom节点更耗费性能 -->
+        <h1 v-if="seen">宁姚</h1>
+        <h1 v-if="1 < 2">宁姚</h1>
+        <h2>当前n的值是：{{n}}</h2>
+        <button @click="n++">点我n加1</button>
+        <!-- <h1 v-show="n%2 === 0">Angular</h1>
+        <h1 v-show="n%3 === 0">React</h1>
+        <h1 v-show="n%5 === 0">Vue</h1> -->
+        
+        <!-- <h1 v-if="n%2 === 0">Angular</h1>
+        <h1 v-else-if="n%3 === 0">React</h1>
+        <h1 v-else-if="n%5 === 0">Vue</h1>
+        <h1 v-else>jQuer</h1> -->
+        <!-- 需求:三个都一起显示,不能改变DOM结构,不能写多个判断 -->
+        <!-- 使用template(模板)不会影响DOM结构,而且可以实现判断 -->
+        <!-- 但是不能使用v-show,因为这个指令是操控display属性,模板不是元素,所以无效,可以使用v-if因为它是操控DOM -->
+        <template v-if="n === 1">
+            <h1>Angular</h1>
+            <h1>React</h1>
+            <h1>Vue</h1>
+        </template>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    new Vue({
+        el:'#root',
+        data:{
+            show:true,
+            seen:false,
+            n:0
+       }
+    });
+</script>
+</html>

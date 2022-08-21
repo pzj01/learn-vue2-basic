@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>过滤器</title>
+    <script src="../vue_js/vue.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.11.3/dayjs.min.js"></script>
+</head>
+<body style="font-family:'Courier New', Courier, monospace;">
+    <div id="root">
+        <h2>时间戳: {{timeStamp}} </h2>
+        <h2>秒: {{second}} </h2>
+        <h2>分: {{minute}} </h2>
+        <h2>时: {{hour}} </h2>
+        <h2>星期: {{week}} </h2>
+        <h2>天: {{day}} </h2>
+        <h2>月: {{month}} </h2>
+        <h2>年: {{yeah}} </h2>
+        <h1>显示手动格式化: {{yeah}}年 {{month}}月{{day}}日——星期{{week}}——{{hour}}:{{minute}}:{{second}} </h1>
+        <h1>[计算属性]dayjs格式化:{{fmtTime}}</h1>
+        <h1>[方法]dayjs格式化:{{FmtTime()}}</h1>
+        <!-- <h1>[侦听器]dayjs格式化:{{autoTime}}</h1> -->
+        <!-- Vue会将第一个数据作为参数传给过滤器 -->
+        <h1>[过滤器]dayjs格式化:{{timeStamp | timeFormater}}</h1>
+    </div>
+    <div id="root2">
+        <h1>hello,{{name | mySlice}}先生</h1>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    // Vue.config.developmentTip = false;
+    //定义全局过滤器
+    Vue.filter('mySlice',function(value) {
+        return value.toString().slice(0,1);
+    })
+    new Vue({
+        el:'#root',
+        data:{
+            timeStamp:Date.now(),
+            second:new Date(Date.now()).getSeconds(),
+            minute:new Date(Date.now()).getMinutes(),
+            hour:new Date(Date.now()).getHours(),
+            day:new Date(Date.now()).getDate(),
+            week:new Date(Date.now()).getDay(),
+            month:new Date(Date.now()).getMonth() + 1,
+            yeah:new Date(Date.now()).getUTCFullYear(),
+            // autoTime:'',
+       },
+       methods: {
+            FmtTime() {
+                return dayjs(this.timeStamp).format('YYYY年MM月DD日 HH:mm:ss');
+            }
+       },
+       computed: {
+            fmtTime() {
+                return dayjs(this.timeStamp).format('YYYY年MM月DD日 HH:mm:ss');
+            }
+       },
+       //局部过滤器,只供当前Vue实例使用
+       filters: {
+            timeFormater(time) {
+                return dayjs(time).format('YYYY年MM月DD日 HH:mm:ss');
+            }
+       }
+       //建议别用,特别消耗性能
+    //    watch: {
+    //         timeStamp:{
+    //             immediate:true,
+    //             handler() {
+    //                 this.autoTime = dayjs(this.timeStamp).format('YYYY年MM月DD日 HH:mm:ss');
+    //             }
+    //         }
+    //    }
+    });
+    //日期
+    // console.log(Intl.DateTimeFormat().format());
+    new Vue({
+        el:'#root2',
+        data:{
+            name:"陈平安"
+       }
+    });
+</script>
+</html>

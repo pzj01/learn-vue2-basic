@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件的嵌套</title>
+    <script src="../../vue_js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <app></app>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    //创建阴阳师的子组件
+    const yysRule = Vue.extend({
+        //定义开发者工具的组件名
+        name:"yysRule",
+        template:`
+        <div>
+            <ul>
+                <li v-for="rule of SSR" :key="rule.id">式神:{{rule.type}} 稀有度:{{rule.name}}</li>
+            </ul>
+        </div>
+        `,
+        data () {
+            return {
+                SSR:[
+                    {id:"001",name:"铃彦姬",type:"SSR"},
+                    {id:"002",name:"不见岳",type:"SSR"}
+                ]
+            }
+        }
+    });
+    //创建阴阳师组件
+    const yysComponent = Vue.extend({
+        name:"yysComponent",
+        // el:"#root",//组件一定不要写el配置项,因为最终所有组件都要被一个vm所管理,由vm决定为服务于哪个容器
+        template:`
+        <div>
+            <h2>游戏名: {{name}} </h2>
+            <h2>服务器: {{server}} </h2>
+            <yys-rule></yys-rule>
+        </div>
+        `,
+        data(){//函数形式是因为每次调用返回的内存地址但是不一样的,所以对象的值不会互相干扰
+            return {
+                name:"阴阳师",
+                server:"犬夜叉",
+            }
+        },
+        components:{
+            yysRule,
+        }
+    });
+    //创建fgo组件
+    const fgoComponent = Vue.extend({
+        name:"fgoComponent",
+        template:`
+        <div>
+            <h2>游戏名: {{name}} </h2>
+            <h2>最喜欢的从者:
+                 {{slave}}<span v-if="show">({{job}})</span>
+            </h2>
+            <button @click="showJob">点我解放职介</button>
+        </div>
+        `,
+        methods: {
+            showJob() {
+                this.show = true;
+            }
+        },
+        data () {
+            return {
+                name:"Fate/GO",
+                slave:"摩根",
+                job:"Berserker",
+                show:false,
+            }
+        }
+    });
+    //创建app入口组件
+    const app = Vue.extend({
+        name:"app",
+        template:`
+        <div>
+            <yys-component></yys-component>
+            <fgo-component></fgo-component>
+        </div>
+        `,
+        components: {
+            yysComponent,
+            fgoComponent,
+        }
+    });
+    //创建vm
+    const vm = new Vue({
+        el:'#root',
+        //注册组件(局部注册)
+        components: {
+           app,
+        }
+    });
+</script>
+</html>

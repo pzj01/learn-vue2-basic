@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sessionStorage</title>
+    <script src="../vue_js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h2>sessionStorage</h2>
+        <button @click="addSessionStorage">添加浏览器会话缓存</button>
+        <button @click="readSessionStorage">读取浏览器会话缓存</button>
+        <button @click="deleteSessionStorage">删除浏览器会话缓存</button>
+        <button @click="deleteAllSessionStorage">清除浏览器会话缓存</button>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    new Vue({
+        el:'#root',
+        data() {
+            return {
+                localStorage:"",
+                person:{
+                    name:"阿修罗",
+                    age:20
+                }
+            };
+       },
+       methods: {
+        addSessionStorage() {
+            //添加会话缓存,参数:1.键名 2.值
+            window.sessionStorage.setItem("person",JSON.stringify(this.person));
+        },
+        readSessionStorage() {
+            //获取会话缓存,参数:1.键名
+            let result = JSON.parse(sessionStorage.getItem("person"));
+            console.log(result);
+            //会话缓存会绑定为该对象的一个属性
+            // console.log(sessionStorage.person);
+        },
+        deleteSessionStorage() {
+            //删除会话缓存,参数:1.键名
+            sessionStorage.removeItem("person");
+        },
+        //清空所有会话缓存
+        deleteAllSessionStorage() {
+            sessionStorage.clear();
+        }
+       }
+    });
+</script>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>非单文件组件的基本使用</title>
+    <script src="../../vue_js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+        Vue使用组件的三大步骤:
+            1.创建组件
+            2.注册组件
+            3.使用组件标签
+     -->
+     <!-- 
+        几个需要注意的地方:
+            1.关于组件名：
+                一个单词组成：
+                    第一种写法（首字母小写）：schoo1
+                    第二种写法（首字母大写）：Schoo1
+                多个单词组成：
+                    第一种写法(kebab-case命名)：my-school
+                    第二种写法(CamelCase命名)：ySchool(需要Vue脚手架支持)
+            备注：
+                (1).组件名尽可能回避HTML中已有的元素名称，例如：h2、H2都不行。
+                (2).可以使用name配置项指定组件在开发者工具中呈现的名字。
+            2.关于组件标签：
+                第一种写法：<schoo1></schoo1>
+                第二种写法：<schoo1/>
+            备注：不用使用脚手架时，<schoo1/>会导致后续组件不能渲染。
+            3.一个简写方式：
+                const school=Vue.extend(options)可简写为：const school=options
+      -->
+    <div id="root">
+        <h1>你好,{{name}}!</h1>
+        <!-- 使用组件标签 组件注册可以使用大写,但是HTML中使用组件,必须在大写前面加上-,并且大写要变成小写,因为HTML5规定标签和属性名不能使用大写 -->
+        <yys-component></yys-component>
+        <hr>
+        <!-- 生成标签快捷键:标签名 + > + Tab键 -->
+        <fgo-component></fgo-component>
+    </div>
+    <div id="root2">
+        <fgo-component></fgo-component>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    //创建阴阳师组件
+    const yysComponent = Vue.extend({
+        name:"yysComponent",
+        // el:"#root",//组件一定不要写el配置项,因为最终所有组件都要被一个vm所管理,由vm决定为服务于哪个容器
+        template:`
+        <div>
+            <h2>游戏名: {{name}} </h2>
+            <h2>服务器: {{server}} </h2>
+        </div>
+        `,
+        data(){//函数形式是因为每次调用返回的内存地址但是不一样的,所以对象的值不会互相干扰
+            return {
+                name:"阴阳师",
+                server:"犬夜叉",
+            }
+        }
+    });
+    //创建fgo组件
+    const fgoComponent = Vue.extend({
+        name:"fgoComponent",
+        template:`
+        <div>
+            <h2>游戏名: {{name}} </h2>
+            <h2>最喜欢的从者:
+                 {{slave}}<span v-if="show">({{job}})</span>
+            </h2>
+            <button @click="showJob">点我解放职介</button>
+        </div>
+        `,
+        methods: {
+            showJob() {
+                this.show = true;
+            }
+        },
+        data () {
+            return {
+                name:"Fate/GO",
+                slave:"摩根",
+                job:"Berserker",
+                show:false,
+            }
+        }
+    });
+    //全局注册组件
+    //参数:1.组件名 2.配置对象
+    Vue.component("fgoComponent",fgoComponent);
+    //创建vm
+    const vm = new Vue({
+        el:'#root',
+        data() {
+            return {
+                name:"Vue组件"
+            }
+        },
+        //注册组件(局部注册)
+        components: {
+            yysComponent,
+        }
+    });
+    new Vue({
+        el:"#root2",
+        data () {
+            return {
+                name:"Vue组件2"
+            }
+        }
+    });
+</script>
+</html>

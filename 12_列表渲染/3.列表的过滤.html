@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>列表的过滤</title>
+    <script src="../vue_js/vue.js"></script>
+  </head>
+  <body>
+    <div id="root">
+      <h2>剑来主要人员列表</h2>
+      <p>
+        搜索:
+        <input
+          type="text"
+          placeholder="请输入你想查找的名字"
+          v-model="keyWord"
+        />
+      </p>
+      <ul @click="Delete" style="cursor: default">
+        <li v-for="(p,index) of search" :key="p.id">{{p.name}}——{{p.age}}岁</li>
+      </ul>
+      <button @click="add">添加一个角色</button>
+      <input type="checkbox" v-model="older" />
+      <div>
+        <p>姓名: <input type="text" v-model="name" /></p>
+        <p>年龄: <input type="number" v-model="age" /></p>
+      </div>
+    </div>
+  </body>
+  <script>
+    Vue.config.productionTip = false;
+    new Vue({
+      el: "#root",
+      data: {
+        name: "张三",
+        age: 18,
+        id: 5,
+        older: false,
+        keyWord: "",
+        people: [
+          { id: "001", name: "陈平安", age: 40 },
+          { id: "002", name: "宁姚", age: 40 },
+          { id: "003", name: "齐静春", age: 300 },
+          { id: "004", name: "崔东山", age: 18 },
+          { id: "005", name: "持剑者", age: 100000 },
+        ],
+        filArr:[]
+      },
+      methods: {
+        add() {
+          this.id += 1;
+          if (this.older) {
+            this.people.unshift({
+              id: `00${this.id}`,
+              name: this.name,
+              age: this.age,
+            });
+          } else {
+            this.people.push({
+              id: `00${this.id}`,
+              name: this.name,
+              age: this.age,
+            });
+          }
+        },
+        Delete(e) {
+          e.target.remove();
+        },
+      },
+      //使用计算属性实现 使用计算属性好,因为只有有一个属性就会重新计算
+      computed: {
+        search() {
+          let arr = [];
+          if(isNaN(this.keyWord)) {
+              arr = this.people.filter(p => {
+                return p.name.includes(this.keyWord);
+              });
+          }else{
+             arr = this.people.filter(a => {
+                return a.age.toString().includes(this.keyWord);
+             })
+          }
+          return arr;
+      }
+    },
+    //使用侦听器实现 监听器只能监听一个数据,如果监听的数据依赖其他数据,就会出现问题
+    watch: {
+            keyWord:{
+                immediate:true,
+                handler(newValue) {
+                if(isNaN(newValue)) {
+                    this.filArr = this.people.filter(p => {
+                        return p.name.includes(this.keyWord);
+                    });
+                }else{
+                    this.filArr = this.people.filter(a => {
+                        return a.age.toString().includes(this.keyWord);
+                    })
+                }
+            }
+            },
+        }
+    });
+  </script>
+</html>

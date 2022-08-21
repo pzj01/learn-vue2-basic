@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>何为数据代理</title>
+</head>
+<body>
+    <!-- 数据代理:通过一个对象代理另一个对象中属性的操作(读/写) -->
+    <script>
+        //普通对象
+        const obj = {
+            name:"阿修罗",
+            age:20,
+            gender:true,
+            skill:[
+                {name:"普通攻击"},
+                {name:"被动技能"},
+                {name:"大招"}
+            ]
+        };
+        //代理人
+        const proxy = {
+            name:"帝释天",
+            age:18,
+            gender:false,
+            skill:[
+                {name:"普通攻击"},
+                {name:"被动技能"},
+                {name:"大招"},
+                {name:"特殊技能"}
+            ]
+        };
+        //代理函数
+        function startProxy(proxy,obj,options = {}) {
+            //获取需要代理对象键名数组
+            let propArr = Object.keys(obj);
+            //遍历键名
+            for(let v of propArr ) {
+                //设置新键名
+                $v = `$${v}`;
+                Object.defineProperty(proxy,$v,{
+                    get() {
+                        return obj[v];
+                    },
+                    set(value) {
+                        obj[v] = value;
+                    }
+                });
+            };
+            return proxy;
+        };
+        //开始代理
+        startProxy(proxy,obj);
+    </script>
+</body>
+</html>

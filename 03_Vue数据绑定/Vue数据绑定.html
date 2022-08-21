@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue数据绑定</title>
+    <script src="../vue_js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <p>
+            单向数据绑定:<input type="text" :value="name">
+        </p>
+        <p>
+            <!-- v-model指令只能应用在表单类元素上 -->
+            双向数据绑定1:<input type="text" v-model:value="name">
+        </p>
+        <p>
+            <!-- v-model指令只能应用在表单类元素上 -->
+            双向数据绑定2:<input type="text" v-model="name">
+        </p>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    new Vue({
+        el:"#root",
+        data:{
+            name:"FGO",
+        }
+    });
+</script>
+</html>

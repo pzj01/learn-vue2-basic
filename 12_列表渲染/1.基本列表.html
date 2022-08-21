@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基本列表</title>
+    <script src="../vue_js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h2>剑来主要人员列表(遍历数组)</h2>
+        <ul>
+            <!-- in 和 of 的效果一样,只不过of更符合JS语法,在JS中for...in代表遍历键,for...of代表遍历值 -->
+            <!-- 动态绑定数据,最好使用key,为数据创建唯一标识 -->
+            <!-- 接收两个参数:一个为值,一个为索引 -->
+            <!-- <li v-for="p in people">{{}}</li> -->
+            <li v-for="(p,index) of people" :key="p.id">{{p.name}}——{{p.age}}岁</li>
+        </ul>
+        <h2>汽车信息(carInformation)[遍历对象]</h2>
+        <ul>
+            <li v-for="(c,i) in car" :key="i">
+               {{i}}:{{c}}
+            </li>
+        </ul>
+        <h2>遍历字符串</h2>
+        <ol>
+            <li v-for="(s,index) in str" :key="index">
+                {{s}}
+            </li>
+        </ol>
+        <h2>指定遍历次数</h2>
+        <ul>
+            <li v-for="(number,index) in 5" :key="index">
+                {{number}}-{{index}}
+            </li>
+        </ul>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    new Vue({
+        el:'#root',
+        data:{
+            people:[
+                {id:"001",name:"陈平安",age:40},
+                {id:"002",name:"宁姚",age:40},
+                {id:"003",name:"齐静春",age:300},
+                {id:"004",name:"崔东山",age:18},
+                {id:"005",name:"持剑者",age:100000}
+            ],
+            car:{
+                "品牌(brand)":"特斯拉",
+                "颜色(color)":"黑色",
+                "价格(price)":300000,
+            },
+            str:"临兵斗者皆阵列",
+       }
+    });
+</script>
+</html>

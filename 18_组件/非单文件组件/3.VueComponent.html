@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VueComponent</title>
+    <script src="../../vue_js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+        关于VueComponent:
+            1.school组件本质是一个名为VueComponent的构造函数，且不是程序员定义的，是Vue.extend生成的
+            2.我们只需要写<schoo1/>或<school></school>,Vue解析时会帮我们创建school组件的实例对象，
+              即Vue帮我们执行的：new VueComponent(options)。
+            3.特别注意：每次调用Vue.extend,返回的都是一个全新的VueComponent!!!!
+            4.关于this指向：
+                (1).组件配置中：
+                    data函数、methods中的函数、watch中的函数、computed中的函数它们的this均是【VueComponent实例对象】
+                (2).new Vue()配置中：
+                data函数、methods中的函数、watch中的函数、computed中的函数它们的this均是【Vue实例对象】。
+            5.VueComponent的实例对象，以后简称vc(也可称之为：组件实例对象)。
+              Vue的实例对象，以后简称vm。
+     -->
+    <div id="root">
+        <fgo-component></fgo-component>
+        <fgo-component></fgo-component>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    //创建fgo组件
+    const fgoComponent = Vue.extend({
+        name:"fgoComponent",
+        template:`
+        <div>
+            <h2>游戏名: {{name}} </h2>
+            <h2>最喜欢的从者:
+                 {{slave}}<span v-if="show">({{job}})</span>
+            </h2>
+            <button @click="showJob">点我解放职介</button>
+        </div>
+        `,
+        methods: {
+            showJob() {
+                this.show = true;
+            }
+        },
+        data () {
+            return {
+                name:"Fate/GO",
+                slave:"摩根",
+                job:"Berserker",
+                show:false,
+            }
+        }
+    });
+    const vm = new Vue({
+        el:'#root',
+        components: {
+            fgoComponent
+        }
+    });
+    console.log(vm);
+</script>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件修饰符</title>
+    <script src="../vue_js/vue.js"></script>
+</head>
+<body style="font-family:'Courier New', Courier, monospace;">
+    <!-- 
+        Vue中的事件修饰符：
+            1.prevent:阻止默认事件（常用）；
+            2.stop:阻止事件冒泡（常用）：
+            3.once:事件只触发一次（常用）
+            4.capture:使用事件的捕获模式：
+            5.self:只有event.target是当前操作的元素时才触发事件：
+            6,passive:事件的默认行为立即执行，无需等待事件回调执行完毕：
+     -->
+    <div id="root">
+        <h2>{{eventAct1}}:阻止默认事件（常用）</h2>
+        <a href="https://bilibili.com" @click.prevent="show">点击跳转B站</a>
+        <h2>{{eventAct2}}:阻止事件冒泡（常用）</h2>
+        <h2>如果要有多个需求可以链式调用@xxx.stop.prevent 是按照书写顺序调用(包括键盘事件,不过只能两个键)</h2>
+        <div @click="add('div')">
+            <button @click.stop="add('button')">点我冒泡</button>
+            <a href="https://bilibili.com" @click.prevent.stop="show">点击跳转B站</a>
+        </div>
+        <h2>{{eventAct3}}:事件只触发一次（常用）</h2>
+        <button @click.once="show">点我触发</button>
+        <h2>{{eventAct4}}:使用事件的捕获模式</h2>
+        <div @click.capture="showMsg('div1')" style="width:100px ;height:100px;background-color: red;">
+            div1
+            <div @click.capture="showMsg('div2')" style="width:50px ;height:50px;background-color: rgb(250, 238, 3);">
+                div2
+                <div @click.capture="showMsg('div3')" style="width:25px ;height:25px;background-color: rgb(16, 176, 136);">
+                    div3
+                </div>
+            </div>
+        </div>
+        <h2>{{eventAct5}}:只有event.target是当前操作的元素时才触发事件</h2>
+        <div @click.self="add('div')">
+            <button @click="add('button')">点我冒泡</button>
+        </div>
+        <h2>{{eventAct5}}:事件的默认行为立即执行，无需等待事件回调执行完毕</h2>
+        <h3>书架</h3>
+        <ol @wheel.passive="showMsg(num)" style="width:100px ;height:100px;overflow:auto;">
+            <li>{{bookCase[0]}}</li>
+            <li>{{bookCase[1]}}</li>
+            <li>{{bookCase[2]}}</li>
+            <li>{{bookCase[3]}}</li>
+            <li>{{bookCase[4]}}</li>
+            <li>{{bookCase[0]}}</li>
+            <li>{{bookCase[1]}}</li>
+            <li>{{bookCase[2]}}</li>
+            <li>{{bookCase[3]}}</li>
+            <li>{{bookCase[4]}}</li>
+            <li>{{bookCase[0]}}</li>
+            <li>{{bookCase[1]}}</li>
+            <li>{{bookCase[2]}}</li>
+            <li>{{bookCase[3]}}</li>
+            <li>{{bookCase[4]}}</li>
+        </ol>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    new Vue({
+        el:'#root',
+        data:{
+            num:0,
+            eventAct1:".prevent",
+            eventAct2:".stop",
+            eventAct3:".once",
+            eventAct4:".capture",
+            eventAct5:".self",
+            eventAct5:".passive",
+            bookCase:[
+                "剑来",
+                "雪中悍刀行",
+                "大道争锋",
+                "玄浑道章",
+                "圣堂"
+            ]
+       },
+       methods:{
+        show(e) {
+            // e.preventDefault();//防止默认事件
+            alert("同学你好!")
+        },
+        add(str) {
+            console.log(`${str}冒泡:${this.num++}`);
+        },
+        showMsg(text) {
+            for (let index = 0; index < 5000; index++) {
+                console.log("#");
+            }
+        },
+       }
+    });
+</script>
+</html>

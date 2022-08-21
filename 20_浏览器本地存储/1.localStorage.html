@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>localStorage</title>
+    <script src="../vue_js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h2>localStorage</h2>
+        <button @click="addLocalCache">添加浏览器本地缓存</button>
+        <button @click="readLocalCache">读取浏览器本地缓存</button>
+        <button @click="deleteLocalCache">删除浏览器本地缓存</button>
+        <button @click="deleteAllLocalCache">清除浏览器本地缓存</button>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    new Vue({
+        el:'#root',
+        data() {
+            return {
+                localStorage:"",
+                person:{
+                    name:"阿修罗",
+                    age:20
+                }
+            };
+       },
+       methods: {
+        addLocalCache() {
+            //添加本地缓存,参数:1.键名 2.值
+            window.localStorage.setItem("person",JSON.stringify(this.person));
+        },
+        readLocalCache() {
+            //获取本地缓存,参数:1.键名
+            let result = JSON.parse(localStorage.getItem("person"));
+            console.log(result);
+            //本地缓存会绑定为该对象的一个属性
+            // console.log(localStorage.person);
+        },
+        deleteLocalCache() {
+            //删除本地缓存,参数:1.键名
+            localStorage.removeItem("person");
+        },
+        //清空所有本地缓存
+        deleteAllLocalCache() {
+            localStorage.clear();
+        }
+       }
+    });
+</script>
+</html>

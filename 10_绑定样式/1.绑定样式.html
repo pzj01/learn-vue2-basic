@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>绑定样式</title>
+    <script src="../vue_js/vue.js"></script>
+    <link rel="stylesheet" href="./css/init.css">
+    <style>
+        .basic {
+            width: 250px;
+            height: 400px;
+            border: 2px solid black ;
+            display: flex;
+            flex-flow: wrap;
+            align-content: space-around;
+            justify-content: space-around;
+            transition: all .3s;
+        }
+        .happy {
+            width: 100px;
+            height: 100px;
+            box-sizing: border-box;
+            background:linear-gradient(135deg,rgb(237, 127, 127),rgb(212, 47, 47),rgb(152, 8, 8)) ;
+            box-shadow: 2px 6px 15px 5px rgb(105, 7, 7);
+            border:10px solid rgb(255, 255, 255) ;
+        }
+        .sad {
+            width: 100px;
+            height: 100px;
+            box-sizing: border-box;
+            background:linear-gradient(135deg,rgb(17, 196, 86),rgb(86, 210, 134),rgb(127, 201, 156)) ;
+            box-shadow: 2px 6px 15px 5px rgb(2, 98, 42);
+            border:10px solid rgb(255, 255, 255) ;
+        }
+        .normal {
+            width: 100px;
+            height: 100px;
+            box-sizing: border-box;
+            background:linear-gradient(-45deg,rgb(5, 155, 205),rgb(62, 150, 188),rgb(157, 217, 237)) ;
+            box-shadow: 2px 6px 15px 5px rgb(1, 83, 106);
+            border:10px solid rgb(255, 255, 255) ;
+        }
+        .a {
+            width: 100px;
+            height: 100px;
+            box-sizing: border-box;
+            border:10px solid rgb(225, 195, 247) ;
+        }
+        .b {
+            background:linear-gradient(-45deg,rgb(116, 4, 181),rgb(122, 67, 169),rgb(180, 149, 218)) ;
+        }
+        .c {
+            box-shadow: 2px 6px 15px 5px rgb(46, 2, 87);
+        }
+    </style>
+</head>
+<body>
+    <div class="basic" id="root">
+        <!-- 绑定class 字符串写法  适用于样式的类名不确定,需要动态指定-->
+        <div @click="changeMood" :class="mood"></div>
+        <!-- 绑定class 数组写法  适用于样式的类名不确定以及数量也不确定,需要动态指定-->
+        <div :class="classArr"></div>
+        <!-- 绑定class 对象写法  适用于样式的类名确定以及数量确定,但是否应用不确定,需要动态指定-->
+        <div :class="classObj"></div>
+        <!-- 绑定style内联样式 对象写法 -->
+        <div :style="styleObj"></div>
+        <!-- 绑定style内联样式 数组写法  -->
+        <div :style="styleArr"></div>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    new Vue({
+        el:'#root',
+        data:{
+            mood:'normal',
+            //class数组
+            classArr:['a','b','c'],
+            //class对象
+            classObj:{
+                a:true,
+                b:false,
+                c:true
+            },
+            //style对象
+            styleObj:{
+                width: "100px",
+                height: "100px",
+                boxSizing: "border-box",
+                background:"linear-gradient(-45deg,rgb(5, 155, 205),rgb(62, 150, 188),rgb(157, 217, 237))",
+                boxShadow: "2px 6px 15px 5px rgb(1, 83, 106)",
+                border:"10px solid rgb(255, 255, 255)"
+            },
+            //style数组
+            styleArr:[
+                {
+                    width: "100px",
+                    height: "100px",
+                    boxSizing: "border-box",  
+                },
+                {
+                    background:"red"
+                }
+                //....
+            ]
+       },
+       methods:{
+            changeMood() {
+                let arr = ['happy','normal','sad'];
+                this.mood = arr[Math.floor(Math.random() * 3)]
+            }
+       }
+    });
+</script>
+</html>

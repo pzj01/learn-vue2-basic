@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>模仿Vue的数据代理</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    class Vue {
+      constructor(config) {
+        const that = this;
+        this._data = {};
+        //_data代理config.data
+        check(config.data)
+          ? Proxy(this._data, config.data())
+          : Proxy(this._data, config.data);
+        // vm 代理 config.data
+        check(config.data)
+          ? Proxy(this, config.data())
+          : Proxy(this, config.data);
+        typeof config.el !== "string" || typeof config.el !== "HTMLElement"
+          ? (this.$el = document.querySelector(config.el))
+          : (this.$el = config.el);
+        function check(configData) {
+          if (typeof configData === "function") {
+            if (configData() instanceof Object) {
+              if (configData() instanceof Array) {
+                console.error("函数返回值必须是对象");
+              } else {
+                return true;
+              }
+            } else {
+              console.error("函数返回值必须是对象");
+            }
+          } else if (configData instanceof Object) {
+            if (configData instanceof Array) {
+              console.error("data必须是对象或者函数,并且函数必须返回一个对象");
+            } else {
+              return false;
+            }
+          }
+        }
+        function Proxy(proxy1, proxy2, option = "single") {
+          if (check(proxy1) || check(proxy2)) {
+            return;
+          }
+          let proxy1Arr = Object.keys(proxy1);
+          let proxy2Arr = Object.keys(proxy2);
+          if (option === "single") {
+            for (let v of proxy2Arr) {
+              Object.defineProperty(proxy1, v, {
+                get() {
+                  return proxy2[v];
+                },
+                set(value) {
+                  proxy2[v] = value;
+                  //重新解析模板
+                },
+              });
+            }
+          }
+        }
+      };
+    }
+
+    const vm = new Vue({
+      el: "#root",
+      data:{
+        name:"阿修罗"
+      }
+    });
+    console.log(vm);
+  </script>
+</html>

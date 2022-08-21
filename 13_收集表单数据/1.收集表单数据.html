@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>收集表单数据</title>
+    <script src="../vue_js/vue.js"></script>
+    <style>
+        .normal {
+            cursor: pointer;
+        }
+        .show {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+        /* 取消number输入框的默认样式 */
+        input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <form @submit.prevent="submit" action="" method="post">
+            <p>
+                账号: <input type="text" v-model.trim="userInfo.account" placeholder="请输入账号">
+            </p>
+            <p>
+                密码: <input type="text" v-model.trim="userInfo.passWord" placeholder="请输入密码">
+            </p>
+            <p>
+                电话号码: <input  type="number" v-model.number="userInfo.phoneNumber" placeholder="请输入电话号码">
+            </p>
+            <p>
+                性别: 
+                <label for="man">
+                    男<input type="radio" id="man" value="man" v-model="userInfo.sex">
+                </label>
+                <label for="woman">
+                    女<input type="radio" id="woman" value="woman" v-model="userInfo.sex">
+                </label>
+            </p>
+            <p>
+                爱好:
+                <label for="programming">
+                    编程<input type="checkbox" id="programming" v-model="userInfo.hobby" value="编程">
+                </label>
+                <label for="videoGame">
+                    电子游戏<input type="checkbox" id="videoGame" v-model="userInfo.hobby" value="电子游戏">
+                </label>
+                <label for="sport">
+                    运动<input type="checkbox" id="sport" v-model="userInfo.hobby" value="运动">
+                </label>
+            </p>
+            <p>
+                所在地:
+                <select :style="{width:'200px'}" v-model="userInfo.localtion">
+                    <option value="北京">北京</option>
+                    <option value="上海">上海</option>
+                    <option value="江西">江西</option>
+                    <option value="深圳">深圳</option>
+                    <option value="广洲">广洲</option>
+                </select>
+            </p>
+            <p>
+                其他信息:
+            </p>
+            <textarea cols="30" rows="10" v-model.trim.lazy="userInfo.otherInformation"></textarea>
+            <p>
+                同意并接受
+                <a :style="{textDecoration:'none'}" href="#"><用户协议></a>
+                <input type="checkbox" v-model="userInfo.isAccept">
+            </p>
+            <p>
+                <input id="submit" class="normal" :class="!userInfo.isAccept && 'show'" type="submit" value="提交">
+                <!-- <button :class="!isAccept && 'show'">提交</button> -->
+            </p>
+        </form>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    new Vue({
+        el:'#root',
+        data:{
+            userInfo:{
+                account:"",
+                passWord:"",
+                phoneNumber:"",
+                sex:"",
+                hobby:[],
+                localtion:"江西",
+                otherInformation:"",
+                isAccept:false,
+            }
+       },
+       methods: {
+            submit() {
+                console.log(JSON.stringify(this.userInfo));
+                alert("信息已提交");
+            }
+       },
+       watch: {
+            "userInfo.isAccept":{
+                deep:true,
+                immediate:true,
+                handler() {
+                    document.getElementById("submit").disabled = !this.userInfo.isAccept;
+                }
+            }
+       }
+    });
+</script>
+</html>

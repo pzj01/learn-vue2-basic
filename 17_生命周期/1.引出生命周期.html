@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>引出生命周期</title>
+    <script src="../vue_js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h1 :style="{opacity}">欢迎学习{{name}}</h1>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    const vm = new Vue({
+        el:'#root',
+        data:{
+            name:"Vue",
+            opacity:1,
+       },
+       //创建生命周期钩子
+       //实例被挂载后调用(Vue第一次完成模板的解析并把真实DOM放入页面后调用mounted[挂载完毕])
+       mounted () {
+            console.log("mounted调用,挂载完毕");
+            setInterval(() => {
+                this.opacity -= 0.01;
+                if(this.opacity <= 0) this.opacity = 1;
+            }, 16);
+       }
+    });
+    //通过外部定时器实现(不推荐)
+    // setInterval(() => {
+    //     vm.opacity -= 0.01;
+    //     if(vm.opacity <= 0) vm.opacity = 1;
+    // }, 16);
+</script>
+</html>
